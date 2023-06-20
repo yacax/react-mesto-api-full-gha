@@ -1,0 +1,13 @@
+.header__base {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 45px 0 41px;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
+}
+
+@media screen and (max-width: 767px) {
+  .header__base {
+    padding: 28px 29px 12px;
+  }
+}

@@ -1,0 +1,12 @@
+.header__informer_type_mobile {
+  display: none;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
+}
+
+@media screen and (max-width: 767px) {
+  .header__informer_type_mobile {
+    display: flex;
+    padding-bottom: 2px;
+  }
+}

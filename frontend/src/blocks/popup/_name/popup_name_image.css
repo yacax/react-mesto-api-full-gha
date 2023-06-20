@@ -1,0 +1,9 @@
+.popup_name_image {
+    padding-left: 21px;    
+}
+
+@media screen and (max-width: 767px) {
+    .popup_name_image {
+        padding: 0; 
+    }
+  }

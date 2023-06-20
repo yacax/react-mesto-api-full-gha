@@ -1,0 +1,26 @@
+.header__user {
+  margin: 7px 27px 0 0;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: right;
+  color: #FFF;
+  cursor: pointer;
+  transition: opacity .3s ease-in-out;
+  -webkit-background-repeat: no-repeat;
+  -moz-background-repeat: no-repeat;
+  -o-background-repeat: no-repeat;
+  background-color: transparent;
+}
+
+.header__user:hover {
+  opacity: .5;
+}
+
+@media screen and (max-width: 767px) {
+  .header__user {
+    margin: 41px auto 0;
+  }
+}

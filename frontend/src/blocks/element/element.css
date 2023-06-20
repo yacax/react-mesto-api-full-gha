@@ -1,0 +1,13 @@
+.element {
+  display: grid;
+  position: relative;
+  grid-template-columns: auto 60px;
+  grid-template-rows: repeat(2, auto);
+  grid-template-areas:
+    "element__image element__image"
+    "element__title element__favorite";
+  align-items: center;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}

@@ -1,0 +1,13 @@
+.auth-page__tips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 16px auto 0;
+}
+
+@media screen and (max-width: 767px) {
+  .auth-page__tips {
+    margin-top: 20px;
+  }
+}

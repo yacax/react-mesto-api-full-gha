@@ -1,0 +1,6 @@
+@media screen and (max-width: 767px) {
+  .header__informer_type_register {
+    display: flex;
+    padding-bottom: 2px;
+  }
+}

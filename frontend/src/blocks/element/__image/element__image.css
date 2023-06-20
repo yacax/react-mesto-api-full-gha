@@ -1,0 +1,21 @@
+.element__image {
+  grid-area: element__image;
+  width: 282px;
+  height: 282px;
+  object-fit: cover;
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 22px;
+  color: #545454;
+  word-break: break-word;
+  text-align: center;
+  background-color: #000;
+}
+
+.element__image:before {
+  content: "Изображение не загружено :(";
+  line-height: 120px;
+}

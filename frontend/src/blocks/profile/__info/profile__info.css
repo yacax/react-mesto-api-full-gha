@@ -1,0 +1,32 @@
+.profile__info {
+  display: grid;
+  position: relative;
+  grid-template-columns: minmax(auto, max-content) 24px;
+  grid-template-rows: repeat(2, auto);
+  grid-template-areas:
+    "profile__title profile__edit-button"
+    "profile__subtitle profile__subtitle";
+  column-gap: 19px;
+  row-gap: 7px;
+  margin: 0;
+  justify-items: start;
+  flex-grow: 1;
+  max-width: 100%;
+  /* overflow: auto;  */
+}
+
+@media screen and (max-width: 767px) {
+  .profile__info {
+    grid-template-columns: repeat(2, auto);
+
+    max-width: calc(100% - 100px);
+    column-gap: 11px;
+    justify-items: center;
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .profile__info {
+    max-width: calc(100% - 39px);
+  }
+}

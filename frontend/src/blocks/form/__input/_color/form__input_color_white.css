@@ -1,0 +1,9 @@
+.form__input_color_white {
+  color: #fff;
+  border-bottom: 1px solid rgb(255, 255, 255);
+  background: none;
+}
+
+.form__input_color_white::placeholder {
+  color: #fff;
+}

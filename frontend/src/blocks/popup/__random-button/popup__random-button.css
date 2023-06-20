@@ -1,0 +1,37 @@
+.popup__random-button {
+  position: absolute;
+  border-style: none;
+  right: 77px;
+  top: 79px;
+  width: 20px;
+  height: 20px;
+  background: url(../../../images/random.svg) center / contain no-repeat;
+  opacity: 0.3;
+}
+
+.popup__random-button:hover {
+  opacity: 1;
+  animation: spinAndScale 5s linear infinite;
+}
+
+@media screen and (max-width: 767px) {
+  .popup__random-button {
+    right: 23px;
+    top: 57px;
+  }
+}
+
+
+@keyframes spinAndScale {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.3);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}

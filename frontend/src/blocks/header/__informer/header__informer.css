@@ -1,0 +1,11 @@
+.header__informer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 767px) {
+  .header__informer {
+    display: none;
+  }
+}

@@ -1,0 +1,22 @@
+.element__favorite {
+  grid-area: element__favorite;
+  justify-self: center;
+  width: 22px;
+  height: 19px;
+  background-image: url(../../../images/favorite-button.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: opacity .3s ease-in-out;
+  border: none;
+  margin-bottom: 16px;
+  -webkit-background-repeat: no-repeat;
+  -moz-background-repeat: no-repeat;
+  -o-background-repeat: no-repeat;
+  background-color: transparent;
+}
+
+.element__favorite:hover {
+  opacity: .5;
+}

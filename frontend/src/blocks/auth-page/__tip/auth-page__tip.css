@@ -1,0 +1,14 @@
+.auth-page__tip {
+  text-decoration: none;
+  display: block;
+  position: relative;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #fff;
+  margin: 0;
+  transition: opacity .3s ease-in-out;
+}
