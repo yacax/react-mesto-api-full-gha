@@ -41,7 +41,7 @@ const App = () => {
   const [infoTool, setInfoTool] = useState({ isOpen: false, text: '', result: '' });
 
   const [userData, setUserData] = useState({
-    id: "",
+    _id: "",
     name: "",
     email: "",
     about: "",
@@ -62,16 +62,18 @@ const App = () => {
     }
     userAuth.getUserData(token)
       .then((user) => {
+
         setUserData({
           ...userData,
-          id: user.data._id,
+          _id: user.data._id,
           name: user.data.name,
           email: user.data.email,
           about: user.data.about,
           avatar: user.data.avatar,
         });
+
         setIsLoggedIn(true);
-        navigate("/");
+        navigate("/")
       })
       .catch((err) => {
         console.log(err)
@@ -82,12 +84,13 @@ const App = () => {
   }, [token, navigate])
 
   const registerUser = ({ name, password, email }) => {
+    setIsLoading(true);
     userAuth.register(name, password, email)
       .then((res) => {
         setUserData({
           ...userData,
-          id: res.data._id,
-          name: res.data.email,
+          _id: res._id,
+          name: res.email,
         });
 
         setInfoTool({
@@ -102,30 +105,42 @@ const App = () => {
           .authorize(email, password)
           .then((res) => {
             localStorage.setItem("jwt", res.token);
-            setToken(res.token)
+            api.setToken(res.token);
+            setIsLoggedIn(true);
           })
       })
-
       .catch((err) => {
         console.log(err)
-
         setInfoTool({
           ...infoTool,
           text: "Что-то пошло не так! Попробуйте ещё раз.",
           isOpen: true,
           result: false,
-        }
-        )
+        })
       })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   const loginUser = ({ email, password }) => {
+    setIsLoading(true);
     userAuth
       .authorize(email, password)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
-        setToken(res.token)
-        navigate("/");
+        api.setToken(res.token);
+        return userAuth.getUserData(res.token);
+      })
+      .then((user) => {
+        setUserData({
+          _id: user.data._id,
+          name: user.data.name,
+          email: user.data.email,
+          about: user.data.about,
+          avatar: user.data.avatar,
+        });
+        setIsLoggedIn(true);
       })
       .catch((err) => {
         console.log(err);
@@ -134,9 +149,11 @@ const App = () => {
           text: "Неправильный логин или пароль!",
           isOpen: true,
           result: false,
-        }
-        )
+        });
       })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   const logOut = () => {
@@ -144,11 +161,22 @@ const App = () => {
     setIsLoggedIn(false);
     setToken("");
     setUserData({
-      email: "",
-      password: "",
+      _id: "",
       name: "",
-    })
+      email: "",
+      about: "",
+      avatar: "",
+    });
   }
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/sign-in");
+    } else if (isLoggedIn) {
+      navigate("/")
+    }
+  }, [isLoggedIn]);
+
 
   const [magicRandomData, setMagicRandomData] = useState("");
 
@@ -204,11 +232,11 @@ const App = () => {
   useEffect(() => {
     if (isLoggedIn) {
       Promise.all([
+        api.getUserData(),
         api.getInitialCards(),
-        api.getUserData()
-      ]).then(([initialCards, userData]) => {
-        setCards(initialCards.data.slice().reverse())
+      ]).then(([userData, initialCards]) => {
         setUserData(userData.data)
+        setCards(initialCards.data.slice().reverse())
       })
         .catch((error) => {
           console.log(error);
@@ -220,7 +248,6 @@ const App = () => {
     api
       .deleteCard(card._id).then(() => {
         setCards((state) => state.filter((o) => o._id !== card._id))
-
       })
       .catch((error) => {
         console.log(error);
@@ -232,7 +259,6 @@ const App = () => {
   }
 
   function handleCardLike(card) {
-
     api
       .toggleLike(card._id, !isLiked(card))
       .then((likeCard) => {
@@ -284,12 +310,10 @@ const App = () => {
   }
 
   function handleUpdateUser(user) {
-
     api
       .patchUserData(user.name, user.about)
       .then((newUser) => {
         setUserData(newUser.data)
-
         closeAllPopups()
       })
       .catch((error) => {
@@ -298,7 +322,6 @@ const App = () => {
   }
 
   function handleUpdateAvatar(newAvatar) {
-
     api
       .patchAvatar(newAvatar.avatar)
       .then((res) => {
@@ -311,7 +334,6 @@ const App = () => {
   }
 
   function handleAddPlaceSubmit(newPlace) {
-
     api
       .postNewCard(newPlace)
       .then((res) => {

@@ -94,7 +94,7 @@ const useForm = (initialState) => {
     });
   };
 
-  return { form, errors, isFormValid, handleChange, resetForm, hardChangeIsFormValid, handleFocus, handleBlur, updateFormInput, isActiveInput };
+  return { form, setForm, errors, isFormValid, handleChange, resetForm, hardChangeIsFormValid, handleFocus, handleBlur, updateFormInput, isActiveInput };
 };
 
 export default useForm;

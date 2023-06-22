@@ -27,9 +27,9 @@ const makeRequest = (url, method, body, token) => {
   });
 };
 
-export const register = (username, password, email) => {
+export const register = (name, password, email) => {
   return makeRequest("/signup", "POST", {
-    username,
+    name,
     password,
     email,
   });

@@ -6,7 +6,7 @@ import useForm from "../hooks/useForm";
 const SignUp = ({ registerUser, errorMessage }) => {
 
   const { form, errors, isFormValid, handleChange } = useForm({
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -31,18 +31,18 @@ const SignUp = ({ registerUser, errorMessage }) => {
         <input
           type="text"
           className="form__input form__input_color_white"
-          name="username"
-          autoComplete="username"
+          name="name"
+          autoComplete="name"
           placeholder="Имя"
           required
-          minLength="4"
-          maxLength="40"
-          id="username"
-          value={form.username}
+          minLength="2"
+          maxLength="30"
+          id="name"
+          value={form.name}
           onChange={handleChange}
         />
 
-        <span className="form__error-text profile-name-input-error" >{errors.username}</span>
+        <span className="form__error-text profile-name-input-error" >{errors.name}</span>
 
         <input
           type="email"
@@ -51,8 +51,8 @@ const SignUp = ({ registerUser, errorMessage }) => {
           autoComplete="email"
           placeholder="Email"
           required
-          minLength="4"
-          maxLength="40"
+          minLength="2"
+          maxLength="30"
           id="email"
           value={form.email}
           onChange={handleChange}

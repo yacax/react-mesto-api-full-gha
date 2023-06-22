@@ -5,7 +5,7 @@ import useForm from "../hooks/useForm";
 
 export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
-  const { form, errors, isFormValid, handleChange } = useForm({
+  const { form, errors, isFormValid, handleChange, setForm } = useForm({
     name: "",
     about: "",
   });
@@ -15,8 +15,10 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   React.useEffect(() => {
 
     if (userData.name || userData.about) {
-      form.name = userData.name;
-      form.about = userData.about;
+      setForm({
+        name: userData.name || '',
+        about: userData.about || '',
+      });
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, userData]);
@@ -46,7 +48,6 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         maxLength="30"
         id="profile-name-input"
         value={form.name}
-
         onChange={handleChange}
       />
       <span className="form__error-text profile-name-input-error" >{errors.name} </span>

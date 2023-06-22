@@ -31,7 +31,7 @@ const SignIn = ({ loginUser }) => {
           name="email"
           placeholder="Email"
           required
-          maxLength="40"
+          maxLength="30"
           id="email"
           value={form.username}
           onChange={handleChange}
