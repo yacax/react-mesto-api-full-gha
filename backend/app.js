@@ -14,11 +14,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 app.use(helmet());
-const { PORT = 3001 } = process.env;
-
-// mongoose.connect('mongodb://localhost:27017/mestodb', {
-//   useNewUrlParser: true,
-// });
+const { PORT = 3000 } = process.env;
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
@@ -38,8 +34,6 @@ app.use(express.json());
 
 app.use(requestLogger);
 
-
-// Добавление обработчика запросов OPTIONS
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
@@ -51,7 +45,6 @@ app.use(function (req, res, next) {
     next();
   }
 });
-
 
 app.post('/signin', validateAuthentication, login);
 app.post('/signup', validateUserBody, createUser);
