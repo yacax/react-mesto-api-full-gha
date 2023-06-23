@@ -2,11 +2,20 @@ const { celebrate, Joi } = require('celebrate');
 const { ObjectId } = require('mongoose').Types;
 const { regexPatterns } = require('./regexPatterns');
 
+const schema = Joi.object({
+  name: Joi.string().min(2).max(30).optional(),
+  about: Joi.string().min(2).max(30).optional(),
+  avatar: Joi.string().pattern(regexPatterns.link).optional(),
+  email: Joi.string().required().email(),
+  password: Joi.string().required().min(8),
+});
+
 module.exports.validateUserBody = celebrate({
+
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(regexPatterns.link),
+    name: Joi.string().min(2).max(30).allow('').optional(),
+    about: Joi.string().min(2).max(30).allow('').optional(),
+    avatar: Joi.string().pattern(regexPatterns.link).allow('').optional(),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),

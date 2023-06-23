@@ -27,11 +27,13 @@ const makeRequest = (url, method, body, token) => {
   });
 };
 
-export const register = (name, password, email) => {
+export const register = (name, about, avatar, email, password) => {
   return makeRequest("/signup", "POST", {
     name,
-    password,
+    about,
+    avatar,
     email,
+    password,
   });
 };
 export const authorize = (email, password) => {

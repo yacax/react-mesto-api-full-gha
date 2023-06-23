@@ -7,6 +7,8 @@ const SignUp = ({ registerUser, errorMessage }) => {
 
   const { form, errors, isFormValid, handleChange } = useForm({
     name: "",
+    about: "",
+    avatar: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -34,7 +36,6 @@ const SignUp = ({ registerUser, errorMessage }) => {
           name="name"
           autoComplete="name"
           placeholder="Имя"
-          required
           minLength="2"
           maxLength="30"
           id="name"
@@ -45,11 +46,37 @@ const SignUp = ({ registerUser, errorMessage }) => {
         <span className="form__error-text profile-name-input-error" >{errors.name}</span>
 
         <input
+          type="text"
+          className="form__input form__input_color_white"
+          name="about"
+          autoComplete="about"
+          placeholder="О себе"
+          minLength="2"
+          maxLength="30"
+          id="about"
+          value={form.about}
+          onChange={handleChange}
+        />
+
+        <span className="form__error-text profile-about-input-error" >{errors.about}</span>
+
+        <input
+          type="url"
+          className="form__input form__input_color_white"
+          name="avatar"
+          placeholder="Ссылка на картинку"
+          id="place-url-avatar-input"
+          value={form.avatar}
+          onChange={handleChange}
+        />
+        <span className="form__error-text place-url-avatar-input-error" >{errors.avatar} </span>
+
+        <input
           type="email"
           className="form__input form__input_color_white"
           name="email"
           autoComplete="email"
-          placeholder="Email"
+          placeholder="Email *"
           required
           minLength="2"
           maxLength="30"
@@ -65,31 +92,31 @@ const SignUp = ({ registerUser, errorMessage }) => {
           autoComplete="new-password"
           className="form__input form__input_color_white"
           name="password"
-          placeholder="Пароль"
+          placeholder="Пароль *"
           required
-          minLength="4"
+          minLength="8"
           maxLength="40"
           id="password"
           value={form.password}
           onChange={handleChange}
         />
-        <span className="form__error-text profile-name-input-error">{errors.password}</span>
+        <span className="form__error-text profile-password-input-error">{errors.password}</span>
 
         <input
           type="password"
           autoComplete="new-password"
           className="form__input form__input_color_white"
           name="confirmPassword"
-          placeholder="Подтвердите пароль"
+          placeholder="Подтвердите пароль *"
           required
-          minLength="4"
+          minLength="8"
           maxLength="40"
           id="confirmPassword"
           value={form.confirmPassword}
           onChange={handleChange}
         />
 
-        <span className="form__error-text profile-name-input-error">{errors.confirmPassword}</span>
+        <span className="form__error-text profile-password-input-error">{errors.confirmPassword}</span>
 
       </PageWithForm>
 

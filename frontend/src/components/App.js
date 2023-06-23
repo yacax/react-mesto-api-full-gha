@@ -83,9 +83,9 @@ const App = () => {
       });
   }, [token, navigate])
 
-  const registerUser = ({ name, password, email }) => {
+  const registerUser = ({ name, about, avatar, email, password }) => {
     setIsLoading(true);
-    userAuth.register(name, password, email)
+    userAuth.register(name, about, avatar, email, password)
       .then((res) => {
         setUserData({
           ...userData,

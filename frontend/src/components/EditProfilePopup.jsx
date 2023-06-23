@@ -64,7 +64,7 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         value={form.about}
         onChange={handleChange}
       />
-      <span className="form__error-text profile-description-input-error" >{errors.about}</span>
+      <span className="form__error-text profile-about-input-error" >{errors.about}</span>
 
     </PopupWithForm>
   )

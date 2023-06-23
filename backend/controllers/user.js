@@ -23,14 +23,16 @@ module.exports.createUser = (req, res, next) => {
     password,
   } = req.body;
 
-  bcrypt.hash(password, 10)
-    .then((hash) => User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
-    }))
+  const userObject = {
+    email,
+    password: bcrypt.hashSync(password, 10),
+  };
+
+  if (name && name !== '') userObject.name = name;
+  if (about && about !== '') userObject.about = about;
+  if (avatar && avatar !== '') userObject.avatar = avatar;
+
+  User.create(userObject)
     .then((user) => res.status(201).send({
       _id: user._id,
       email: user.email,
@@ -39,6 +41,7 @@ module.exports.createUser = (req, res, next) => {
       avatar: user.avatar,
     }))
     .catch((err) => {
+      console.log(err);
       if (err instanceof BadRequestError) {
         next(err);
       } else if (err.code === 11000) {
