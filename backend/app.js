@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
@@ -20,7 +20,9 @@ const { PORT = 3000 } = process.env;
 mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+})
+  .then(() => console.log('Connected to MongoDB successfully!'))
+  .catch((error) => console.log(`Error connecting to MongoDB: ${error}`));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
