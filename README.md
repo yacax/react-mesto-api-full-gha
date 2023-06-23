@@ -53,13 +53,16 @@ This project has been built with a stack of modern technologies that provides hi
 
 - **GitHub & GitPages:** The codebase is hosted on GitHub, and GitPages has been used for the project's documentation and presentation.
 
+1. Frontend URL сервера отсутствует или указан некорректно в файле README.md. Правильный формат: Frontend <url>
+2. Backend URL сервера отсутствует или указан некорректно в файле README.md. Правильный формат: Backend <url>
+3. IP-адресс отсутствует или указан некорректно в файле README.md. Правильный формат: IP <ipv4>
  
 
 ## Project Links
 
-- **IP-address:** [51.250.70.104](http://51.250.70.104)
+- IP-address <http://51.250.70.104>
 
-- **Frontend:** [https://yacax.nomoreparties.sbs/](https://yacax.nomoreparties.sbs/)
+- Frontend <https://yacax.nomoreparties.sbs>
 
-- **Backend:** [https://yan.nomoreparties.sbs/](https://yan.nomoreparties.sbs/)
+- Backend <https://yan.nomoreparties.sbs>
 
