@@ -1,4 +1,7 @@
 const jwt = require('jsonwebtoken');
+
+const jwtSecret = process.env.JWT_SECRET;
+
 const AuthenticationError = require('../errors/AuthenticationError');
 
 module.exports = (req, res, next) => {
@@ -9,7 +12,7 @@ module.exports = (req, res, next) => {
   const token = authorization.replace('Bearer ', '');
   let payload;
   try {
-    payload = jwt.verify(token, 'some-secret-key');
+    payload = jwt.verify(token, jwtSecret);
   } catch (err) {
     next(new AuthenticationError());
   }

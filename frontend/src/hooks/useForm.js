@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const useForm = (initialState) => {
   const [form, setForm] = useState(initialState);
@@ -6,17 +6,9 @@ const useForm = (initialState) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [isActiveInput, setIsActiveInput] = useState({});
 
-  const hasErrors = (errors) => {
-    for (let key in errors) {
-      if (errors[key] !== "") {
-        return true;
-      }
-    }
-    return false;
-  };
+  const hasErrors = (err) => Object.values(err).some((value) => value !== '');
 
   const handleFocus = (evt) => {
-
     setIsActiveInput(evt.target);
     const input = evt.target;
     setForm({
@@ -28,38 +20,36 @@ const useForm = (initialState) => {
   const handleBlur = () => {
     setForm({
       ...form,
-      activeInput: "",
+      activeInput: '',
     });
   };
 
-  const updateFormInput = (data, isActiveInput) => {
-
+  const updateFormInput = (data) => {
     if (data.name && data.value) {
       setForm({
         ...form,
         [data.name]: data.value,
       });
     }
-  }
+  };
 
   useEffect(() => {
-    if (Object.values(form).every(x => x !== "")) {
-      setIsFormValid(!hasErrors(errors))
+    if (Object.values(form).every((x) => x !== '')) {
+      setIsFormValid(!hasErrors(errors));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form])
+  }, [form]);
 
   const resetForm = () => {
-    setForm(initialState)
-  }
+    setForm(initialState);
+  };
 
   const hardChangeIsFormValid = (boolean) => {
     setIsFormValid(boolean);
-  }
+  };
 
   useEffect(() => {
-    setIsFormValid(!hasErrors(errors))
-  }, [errors])
+    setIsFormValid(!hasErrors(errors));
+  }, [errors]);
 
   const handleChange = (evt) => {
     const input = evt.target;
@@ -74,17 +64,18 @@ const useForm = (initialState) => {
         ...prevErrors,
         [input.name]: input.validationMessage,
       };
+      const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-      if (input.name === "confirmPassword") {
-        const currentPassword = input.name === "password" ? input.value : form.password;
-        const currentConfirmPassword = input.name === "confirmPassword" ? input.value : form.confirmPassword;
+      if (input.name === 'confirmPassword') {
+        const currentPassword = input.name === 'password' ? input.value : form.password;
+        const currentConfirmPassword = input.name === 'confirmPassword' ? input.value : form.confirmPassword;
 
-        if (currentPassword !== currentConfirmPassword) {
+        if (currentPassword !== currentConfirmPassword || !PASSWORD_REGEX.test(currentPassword)) {
           newErrors.password = input.validationMessage;
-          newErrors.confirmPassword = "Пароли не совпадают";
+          newErrors.confirmPassword = 'Пароли не совпадают или слишком простые. Пожалуйста используйте заглавные, строчные буквы и цифры при создании пароля.';
         } else {
-          newErrors.password = "";
-          newErrors.confirmPassword = "";
+          newErrors.password = '';
+          newErrors.confirmPassword = '';
         }
       }
 
@@ -94,9 +85,19 @@ const useForm = (initialState) => {
     });
   };
 
-  return { form, setForm, errors, isFormValid, handleChange, resetForm, hardChangeIsFormValid, handleFocus, handleBlur, updateFormInput, isActiveInput };
+  return {
+    form,
+    setForm,
+    errors,
+    isFormValid,
+    handleChange,
+    resetForm,
+    hardChangeIsFormValid,
+    handleFocus,
+    handleBlur,
+    updateFormInput,
+    isActiveInput,
+  };
 };
 
 export default useForm;
-
-

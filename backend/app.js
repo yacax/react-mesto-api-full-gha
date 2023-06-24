@@ -1,9 +1,11 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const { corsOptions } = require('./utils/corsOptions');
 const { logger } = require('./utils/logger');
 const { login, createUser } = require('./controllers/user');
 const auth = require('./middlewares/auth');
@@ -13,16 +15,16 @@ const NotFoundError = require('./errors/NotFoundError');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
+const dbUrl = process.env.MONGODB_URL;
+
 const app = express();
 app.use(helmet());
 const { PORT = 3000 } = process.env;
 
-mongoose.connect(process.env.MONGODB_URL, {
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-})
-  .then(() => console.log('Connected to MongoDB successfully!'))
-  .catch((error) => console.log(`Error connecting to MongoDB: ${error}`));
+});
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -36,18 +38,7 @@ app.use(limiter);
 app.use(express.json());
 
 app.use(requestLogger);
-
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', true);
-  if (req.method == 'OPTIONS') {
-    res.status(200).send();
-  } else {
-    next();
-  }
-});
+app.use(cors(corsOptions));
 
 app.post('/signin', validateAuthentication, login);
 app.post('/signup', validateUserBody, createUser);

@@ -19,7 +19,6 @@
 @import url(blocks/header/__button/_type/header__button_type_menu.css);
 @import url(blocks/header/__button/_type/header__button_type_close.css);
 
-
 /* profile */
 @import url(blocks/profile/profile.css);
 @import url(blocks/profile/__avatar-container/profile__avatar-container.css);
@@ -86,24 +85,3 @@
 @import url(blocks/auth-page/__tips/auth-page__tips.css);
 @import url(blocks/auth-page/__tip/auth-page__tip.css);
 @import url(blocks/auth-page/__button/_disabled/auth-page__button_disabled.css);
-
-
-
-
-
-/* ================================================================== */
-
-
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */

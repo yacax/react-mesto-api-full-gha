@@ -1,29 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { api } from '../utils/Api';
 import * as userAuth from '../utils/userAuth';
-import * as randomPicture from '../utils/randomPicture'
-import { randomQuote } from '../utils/randomQuote'
 
 import Main from './Main';
 import Footer from './Footer';
 
 import { EditProfilePopup } from './EditProfilePopup';
-import { EditAvatarPopup } from './EditAvatarPopup';
-import { AddPlacePopup } from './AddPlacePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import InfoTooltip from './InfoTooltip';
 
 import { UserDataContext } from '../contexts/CurrentUserContext';
 
-import { Route, Routes, useNavigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 
 import Register from './Register';
 import Login from './Login';
 
-const App = () => {
-
+function App() {
   const navigate = useNavigate();
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -36,33 +33,32 @@ const App = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState('');
 
   const [infoTool, setInfoTool] = useState({ isOpen: false, text: '', result: '' });
 
   const [userData, setUserData] = useState({
-    _id: "",
-    name: "",
-    email: "",
-    about: "",
-    avatar: "",
-  })
+    _id: '',
+    name: '',
+    email: '',
+    about: '',
+    avatar: '',
+  });
 
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
+    const jwt = localStorage.getItem('jwt');
     setToken(jwt);
     api.setToken(jwt);
-  }, [])
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
     if (!token) {
       setIsLoading(false);
-      return
+      return;
     }
     userAuth.getUserData(token)
       .then((user) => {
-
         setUserData({
           ...userData,
           _id: user.data._id,
@@ -73,17 +69,23 @@ const App = () => {
         });
 
         setIsLoggedIn(true);
-        navigate("/")
+        navigate('/');
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }, [token, navigate])
+  }, [token, navigate]);
 
-  const registerUser = ({ name, about, avatar, email, password }) => {
+  const registerUser = ({
+    name,
+    about,
+    avatar,
+    email,
+    password,
+  }) => {
     setIsLoading(true);
     userAuth.register(name, about, avatar, email, password)
       .then((res) => {
@@ -95,40 +97,39 @@ const App = () => {
 
         setInfoTool({
           ...infoTool,
-          text: "Вы успешно зарегистрировались!",
+          text: 'Вы успешно зарегистрировались!',
           isOpen: true,
           result: true,
-        }
-        )
-      }).then((res) => {
+        });
+      }).then(() => {
         userAuth
           .authorize(email, password)
           .then((res) => {
-            localStorage.setItem("jwt", res.token);
+            localStorage.setItem('jwt', res.token);
             api.setToken(res.token);
             setIsLoggedIn(true);
-          })
+          });
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         setInfoTool({
           ...infoTool,
-          text: "Что-то пошло не так! Попробуйте ещё раз.",
+          text: 'Что-то пошло не так! Попробуйте ещё раз.',
           isOpen: true,
           result: false,
-        })
+        });
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }
+  };
 
   const loginUser = ({ email, password }) => {
     setIsLoading(true);
     userAuth
       .authorize(email, password)
       .then((res) => {
-        localStorage.setItem("jwt", res.token);
+        localStorage.setItem('jwt', res.token);
         api.setToken(res.token);
         return userAuth.getUserData(res.token);
       })
@@ -146,7 +147,7 @@ const App = () => {
         console.log(err);
         setInfoTool({
           ...infoTool,
-          text: "Неправильный логин или пароль!",
+          text: 'Неправильный логин или пароль!',
           isOpen: true,
           result: false,
         });
@@ -154,120 +155,66 @@ const App = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }
+  };
 
   const logOut = () => {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem('jwt');
     setIsLoggedIn(false);
-    setToken("");
+    setToken('');
     setUserData({
-      _id: "",
-      name: "",
-      email: "",
-      about: "",
-      avatar: "",
+      _id: '',
+      name: '',
+      email: '',
+      about: '',
+      avatar: '',
     });
-  }
+  };
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate("/sign-in");
+      navigate('/sign-in');
     } else if (isLoggedIn) {
-      navigate("/")
+      navigate('/');
     }
   }, [isLoggedIn]);
-
-
-  const [magicRandomData, setMagicRandomData] = useState("");
-
-  function smartTrim(str) {
-    if (!str || typeof str !== 'string' || str.trim() === '') {
-      return '';
-    }
-    if (str.length <= 30) {
-      return str;
-    }
-    let end = -1;
-    for (let i = 30; i >= 15; i--) {
-      if (str[i] === '.' || str[i] === '?' || str[i] === '!') {
-        end = i + 1;
-        break;
-      }
-    }
-    if (end !== -1) {
-      return str.substring(0, end);
-    }
-    end = Math.min(30, str.length);
-    while (end > 0 && str[end] !== ' ') {
-      end--;
-    }
-    return str.substring(0, end);
-  }
-
-
-  const generateSomething = (activeInput) => {
-
-    if (activeInput === 'link') {
-
-      randomPicture
-        .getPicture()
-        .then((image) => {
-          setMagicRandomData(image.urls.regular)
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-
-    } else if (activeInput === 'name') {
-
-      randomQuote()
-        .then((res) => setMagicRandomData(smartTrim(res.quote)))
-        .catch((err) => {
-          console.log(err);
-        })
-
-    }
-  }
 
   useEffect(() => {
     if (isLoggedIn) {
       Promise.all([
         api.getUserData(),
         api.getInitialCards(),
-      ]).then(([userData, initialCards]) => {
-        setUserData(userData.data)
-        setCards(initialCards.data.slice().reverse())
+      ]).then(([user, card]) => {
+        setUserData(user.data);
+        setCards(card.data.slice().reverse());
       })
         .catch((error) => {
           console.log(error);
         });
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
-  function handleCardDelete(card) {
+  const handleCardDelete = useCallback((card) => {
     api
       .deleteCard(card._id).then(() => {
-        setCards((state) => state.filter((o) => o._id !== card._id))
+        setCards((state) => state.filter((o) => o._id !== card._id));
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  }, []);
 
-  function isLiked(card) {
-    return card.likes.some(i => i === userData._id);
-  }
+  const isLiked = useCallback((card) => card.likes.some((i) => i === userData._id), [userData]);
 
-  function handleCardLike(card) {
+  const handleCardLike = useCallback((card) => {
     api
       .toggleLike(card._id, !isLiked(card))
       .then((likeCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? likeCard.data : c));
+        setCards((state) => state.map((c) => (c._id === card._id ? likeCard.data : c)));
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  }, [isLiked]);
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -302,51 +249,51 @@ const App = () => {
         setInfoTool({
           ...infoTool,
           isOpen: false,
-        })
+        });
         break;
       default:
         break;
     }
-  }
+  };
 
-  function handleUpdateUser(user) {
+  const handleUpdateUser = useCallback((user) => {
     api
       .patchUserData(user.name, user.about)
       .then((newUser) => {
-        setUserData(newUser.data)
-        closeAllPopups()
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function handleUpdateAvatar(newAvatar) {
-    api
-      .patchAvatar(newAvatar.avatar)
-      .then((res) => {
-        setUserData(res.data)
-        closeAllPopups()
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function handleAddPlaceSubmit(newPlace) {
-    api
-      .postNewCard(newPlace)
-      .then((res) => {
-        setCards([res.data, ...cards]);
+        setUserData(newUser.data);
         closeAllPopups();
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  }, [closeAllPopups]);
+
+  const handleUpdateAvatar = useCallback((newAvatar) => {
+    api
+      .patchAvatar(newAvatar.avatar)
+      .then((res) => {
+        setUserData(res.data);
+        closeAllPopups();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [closeAllPopups]);
+
+  const handleAddPlaceSubmit = useCallback((newPlace) => {
+    api
+      .postNewCard(newPlace)
+      .then((res) => {
+        setCards((cardsSet) => [res.data, ...cardsSet]);
+        closeAllPopups();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [closeAllPopups]);
 
   if (isLoading) {
-    return <div className='body'>Загрузка...</div>;
+    return <div className="body"> Загрузка...</div>;
   }
 
   return (
@@ -357,7 +304,7 @@ const App = () => {
           <Routes>
             <Route
               path="/"
-              element={
+              element={(
                 <ProtectedRoute
                   path="/"
                   loggedIn={isLoggedIn}
@@ -373,7 +320,7 @@ const App = () => {
                   onCardDelete={handleCardDelete}
                   logOut={logOut}
                 />
-              }
+              )}
             />
 
             <Route
@@ -398,35 +345,38 @@ const App = () => {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser} />
+          onUpdateUser={handleUpdateUser}
+        />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
-          generateSomething={generateSomething}
-          magicRandomData={magicRandomData} />
+        />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar} />
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         <ImagePopup
           name="card"
           selectedCard={selectedCard}
           isOpen={isImagePopupOpen}
-          onClose={closeAllPopups} />
+          onClose={closeAllPopups}
+        />
 
         <InfoTooltip
           result={infoTool.result}
           text={infoTool.text}
           isOpen={infoTool.isOpen}
-          onClose={closeAllPopups} />
+          onClose={closeAllPopups}
+        />
 
       </div>
     </UserDataContext.Provider>
   );
-};
+}
 
 export default App;

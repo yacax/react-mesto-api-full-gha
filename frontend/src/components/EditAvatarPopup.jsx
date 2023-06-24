@@ -1,25 +1,37 @@
-import { useEffect, useRef } from "react";
-import useForm from "../hooks/useForm";
-import PopupWithForm from "./PopupWithForm"
+import React, { useEffect, useRef, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import useForm from '../hooks/useForm';
+import PopupWithForm from './PopupWithForm';
 
-export function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-
-  const { form, errors, isFormValid, handleChange } = useForm({
-    avatar: "",
+export default function EditAvatarPopup({
+  isOpen,
+  onClose,
+  onUpdateAvatar,
+}) {
+  const {
+    form,
+    errors,
+    isFormValid,
+    handleChange,
+    hardChangeIsFormValid,
+    resetForm,
+  } = useForm({
+    avatar: '',
   });
 
   const newAvatar = useRef();
 
-  function handleSubmit(e) {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     onUpdateAvatar({
       avatar: newAvatar.current.value,
     });
-  }
+  }, [onUpdateAvatar, form]);
 
   useEffect(() => {
-    newAvatar.current.value = '';
-  }, [isOpen])
+    resetForm();
+    hardChangeIsFormValid(false);
+  }, [isOpen]);
 
   return (
     <PopupWithForm
@@ -41,7 +53,16 @@ export function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
         ref={newAvatar}
         onChange={handleChange}
       />
-      <span className="form__error-text place-url-avatar-input-error" >{errors.avatar} </span>
+      <span className="form__error-text place-url-avatar-input-error">
+        {errors.avatar}
+        {' '}
+      </span>
     </PopupWithForm>
-  )
+  );
 }
+
+EditAvatarPopup.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onUpdateAvatar: PropTypes.func.isRequired,
+};

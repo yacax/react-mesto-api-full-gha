@@ -1,27 +1,32 @@
-import PageWithForm from "./PageWithForm";
-import { Link } from "react-router-dom";
-import Header from "./Header";
-import useForm from "../hooks/useForm";
+import React, { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import PageWithForm from './PageWithForm';
+import Header from './Header';
+import useForm from '../hooks/useForm';
 
-const SignUp = ({ registerUser, errorMessage }) => {
-
-  const { form, errors, isFormValid, handleChange } = useForm({
-    name: "",
-    about: "",
-    avatar: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  })
+function SignUp({ registerUser }) {
+  const {
+    form,
+    errors,
+    isFormValid,
+    handleChange,
+  } = useForm({
+    name: '',
+    about: '',
+    avatar: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     registerUser(form);
-  }
+  };
 
   return (
     <>
-      <Header linkTo='/sign-in' linkName='Войти' />
+      <Header linkTo="/sign-in" linkName="Войти" />
 
       <PageWithForm
         pageName="Регистрация"
@@ -42,8 +47,7 @@ const SignUp = ({ registerUser, errorMessage }) => {
           value={form.name}
           onChange={handleChange}
         />
-
-        <span className="form__error-text profile-name-input-error" >{errors.name}</span>
+        <span className="form__error-text profile-name-input-error">{errors.name}</span>
 
         <input
           type="text"
@@ -58,7 +62,7 @@ const SignUp = ({ registerUser, errorMessage }) => {
           onChange={handleChange}
         />
 
-        <span className="form__error-text profile-about-input-error" >{errors.about}</span>
+        <span className="form__error-text profile-about-input-error">{errors.about}</span>
 
         <input
           type="url"
@@ -69,7 +73,10 @@ const SignUp = ({ registerUser, errorMessage }) => {
           value={form.avatar}
           onChange={handleChange}
         />
-        <span className="form__error-text place-url-avatar-input-error" >{errors.avatar} </span>
+        <span className="form__error-text place-url-avatar-input-error">
+          {errors.avatar}
+          {' '}
+        </span>
 
         <input
           type="email"
@@ -84,8 +91,7 @@ const SignUp = ({ registerUser, errorMessage }) => {
           value={form.email}
           onChange={handleChange}
         />
-
-        <span className="form__error-text profile-name-input-error" >{errors.email}</span>
+        <span className="form__error-text profile-name-input-error">{errors.email}</span>
 
         <input
           type="password"
@@ -128,7 +134,11 @@ const SignUp = ({ registerUser, errorMessage }) => {
       </div>
     </>
 
-  )
+  );
 }
+
+SignUp.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+};
 
 export default SignUp;

@@ -10,7 +10,7 @@
   cursor: pointer;
   transition: opacity .3s ease-in-out;
   -webkit-background-repeat: no-repeat;
-  -moz-background-repeat: no-repeat;
+  /* -moz-background-repeat: no-repeat; */
   -o-background-repeat: no-repeat;
   background-color: transparent;
 }

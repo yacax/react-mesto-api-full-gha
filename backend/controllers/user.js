@@ -1,3 +1,4 @@
+const jwtSecret = process.env.JWT_SECRET;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -41,7 +42,6 @@ module.exports.createUser = (req, res, next) => {
       avatar: user.avatar,
     }))
     .catch((err) => {
-      console.log(err);
       if (err instanceof BadRequestError) {
         next(err);
       } else if (err.code === 11000) {
@@ -69,7 +69,7 @@ module.exports.login = (req, res, next) => {
 
           const token = jwt.sign(
             { _id: user._id },
-            'some-secret-key',
+            jwtSecret,
             { expiresIn: '7d' },
           );
 

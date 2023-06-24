@@ -1,41 +1,57 @@
-import PopupWithForm from "./PopupWithForm"
-import React, { useEffect } from "react";
-import useForm from "../hooks/useForm";
+import React, { useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import PopupWithForm from './PopupWithForm';
+import useForm from '../hooks/useForm';
+import useMagicRandomData from '../hooks/useMagicRandomData';
 
-export function AddPlacePopup({ isOpen, onClose, onAddPlace, generateSomething, magicRandomData }) {
+export default function AddPlacePopup({
+  isOpen,
+  onClose,
+  onAddPlace,
+}) {
+  const {
+    form,
+    errors,
+    isFormValid,
+    handleChange,
+    resetForm,
+    hardChangeIsFormValid,
+    handleFocus,
+    updateFormInput,
+    isActiveInput,
+  } = useForm({
+    name: '',
+    link: '',
+    activeInput: '',
+  });
 
-  const { form, errors, isFormValid, handleChange, resetForm, hardChangeIsFormValid, handleFocus, updateFormInput, isActiveInput } = useForm({
-    name: "",
-    link: "",
-    activeInput: "",
-  })
+  const [magicRandomData, generateSomething] = useMagicRandomData();
 
   const handleGenerate = () => {
     generateSomething(form.activeInput);
-  }
+  };
 
   useEffect(() => {
-
     if (magicRandomData) {
-      updateFormInput({
-        name: form.activeInput,
-        value: magicRandomData,
-      },
-        isActiveInput)
+      updateFormInput(
+        {
+          name: form.activeInput,
+          value: magicRandomData,
+        },
+        isActiveInput,
+      );
     }
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [magicRandomData])
+  }, [magicRandomData]);
 
   useEffect(() => {
     resetForm();
     hardChangeIsFormValid(false);
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen])
+  }, [isOpen]);
 
-  function handleSubmit(e) {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     onAddPlace(form);
-  }
+  }, [onAddPlace, form]);
 
   return (
     <PopupWithForm
@@ -62,7 +78,10 @@ export function AddPlacePopup({ isOpen, onClose, onAddPlace, generateSomething, 
         onChange={handleChange}
         onFocus={handleFocus}
       />
-      <span className="form__error-text place-name-input-error">{errors.name} </span>
+      <span className="form__error-text place-name-input-error">
+        {errors.name}
+        {' '}
+      </span>
 
       <input
         type="url"
@@ -75,8 +94,16 @@ export function AddPlacePopup({ isOpen, onClose, onAddPlace, generateSomething, 
         onChange={handleChange}
         onFocus={handleFocus}
       />
-      <span className="form__error-text place-url-input-error" >{errors.link} </span>
+      <span className="form__error-text place-url-input-error">
+        {errors.link}
+        {' '}
+      </span>
     </PopupWithForm>
-  )
-
+  );
 }
+
+AddPlacePopup.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onAddPlace: PropTypes.func.isRequired,
+};
