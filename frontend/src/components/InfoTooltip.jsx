@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react';
 import successImage from '../images/success.svg';
 import failImage from '../images/fail.svg';

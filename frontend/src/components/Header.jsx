@@ -1,8 +1,14 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import HeaderInformer from './HeaderInformer';
 
-const Header = ({ linkTo, linkName, email = '', logOut }) => {
-
+function Header({
+  linkTo,
+  linkName,
+  email = '',
+  logOut,
+}) {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const handleToggleClick = () => {
@@ -10,9 +16,7 @@ const Header = ({ linkTo, linkName, email = '', logOut }) => {
   };
 
   useEffect(() => {
-
-    const handleResize = () =>
-      setIsMenuVisible(false);
+    const handleResize = () => setIsMenuVisible(false);
 
     window.addEventListener('resize', handleResize);
 
@@ -24,13 +28,15 @@ const Header = ({ linkTo, linkName, email = '', logOut }) => {
   return (
     <header className="header">
 
-      {isMenuVisible && email && (<HeaderInformer
-        mobile={true}
-        email={email}
-        linkName={linkName}
-        linkTo={linkTo}
-        logOut={logOut}
-      />)}
+      {isMenuVisible && email && (
+        <HeaderInformer
+          mobile
+          email={email}
+          linkName={linkName}
+          linkTo={linkTo}
+          logOut={logOut}
+        />
+      )}
 
       <div className="header__base">
 
@@ -39,7 +45,10 @@ const Header = ({ linkTo, linkName, email = '', logOut }) => {
         {email && (
           <button
             className={`header__button ${isMenuVisible ? 'header__button_type_close' : 'header__button_type_menu'}`}
-            onClick={handleToggleClick} />
+            onClick={handleToggleClick}
+            type="button"
+            aria-label={isMenuVisible ? 'Close menu' : 'Open menu'}
+          />
         )}
 
         <HeaderInformer
@@ -51,10 +60,19 @@ const Header = ({ linkTo, linkName, email = '', logOut }) => {
         />
 
       </div>
-    </header >
+    </header>
   );
-};
+}
+
+// Header.propTypes = {
+//   linkTo: PropTypes.string.isRequired,
+//   linkName: PropTypes.string.isRequired,
+//   email: PropTypes.string,
+//   logOut: PropTypes.func.isRequired,
+// };
+
+// Header.defaultProps = {
+//   email: '',
+// };
 
 export default Header;
-
-

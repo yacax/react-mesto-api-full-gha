@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { UserDataContext } from '../contexts/CurrentUserContext';
 
-export function Card({ card, onCardClick, onCardLike, onCardDelete, isLiked }) {
-
+export default function Card({
+  card,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+  isLiked,
+}) {
   const currentUser = React.useContext(UserDataContext);
 
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -26,7 +32,7 @@ export function Card({ card, onCardClick, onCardLike, onCardDelete, isLiked }) {
   }
 
   function handleDeleteClick() {
-    onCardDelete(card)
+    onCardDelete(card);
   }
 
   function handleLike() {
@@ -41,14 +47,14 @@ export function Card({ card, onCardClick, onCardLike, onCardDelete, isLiked }) {
     setImageError(true);
   }
 
-
   if (!imageLoaded || imageError) {
     return null;
   }
 
   return (
     <div className="element">
-
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,
+      jsx-a11y/click-events-have-key-events */}
       <img
         src={card.link}
         alt={card.name}
@@ -61,6 +67,7 @@ export function Card({ card, onCardClick, onCardLike, onCardDelete, isLiked }) {
       <h2 className="element__title">{card.name}</h2>
 
       <button
+        aria-label="Like card"
         className={cardLikeButtonClassName}
         type="button"
         onClick={handleLike}
@@ -69,14 +76,29 @@ export function Card({ card, onCardClick, onCardLike, onCardDelete, isLiked }) {
       <p className="element__likes">{card.likes.length}</p>
 
       {
-        isOwn &&
-        <button
-          className="element__delete-button"
-          type="button"
-          onClick={handleDeleteClick}
-        />
+        isOwn && (
+          <button
+            className="element__delete-button"
+            type="button"
+            onClick={handleDeleteClick}
+            aria-label="Delete card"
+          />
+        )
       }
 
     </div>
-  )
+  );
 }
+
+Card.propTypes = {
+  card: PropTypes.shape({
+    link: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    likes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    owner: PropTypes.string.isRequired,
+  }).isRequired,
+  onCardClick: PropTypes.func.isRequired,
+  onCardLike: PropTypes.func.isRequired,
+  onCardDelete: PropTypes.func.isRequired,
+  isLiked: PropTypes.func.isRequired,
+};

@@ -7,7 +7,7 @@ import * as userAuth from '../utils/userAuth';
 import Main from './Main';
 import Footer from './Footer';
 
-import { EditProfilePopup } from './EditProfilePopup';
+import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';

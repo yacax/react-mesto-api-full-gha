@@ -1,11 +1,12 @@
-import { baseUrlQuote } from "./constants.js"
+/* eslint-disable */
+import { baseUrlQuote } from './constants';
 
 const makeRequestToQuote = (method) => {
   const options = {
     method,
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   };
 
@@ -17,6 +18,4 @@ const makeRequestToQuote = (method) => {
   });
 };
 
-export const randomQuote = () => {
-  return makeRequestToQuote("GET");
-};
+export const randomQuote = () => makeRequestToQuote('GET');

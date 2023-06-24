@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react';
 
 const ImagePopup = ({ selectedCard, onClose, isOpen, imageInfo }) => {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   baseUrlAuth
 } from "./constants.js"

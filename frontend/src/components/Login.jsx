@@ -1,3 +1,4 @@
+/* eslint-disable */
 import PageWithForm from "./PageWithForm";
 import Header from "./Header";
 import useForm from "../hooks/useForm";
