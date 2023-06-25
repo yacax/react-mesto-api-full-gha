@@ -1,6 +1,6 @@
 /* eslint-disable */
 import {
-  baseUrlAuth
+  baseUrl
 } from "./constants.js"
 
 const makeRequest = (url, method, body, token) => {
@@ -20,7 +20,7 @@ const makeRequest = (url, method, body, token) => {
     options.headers.Authorization = `Bearer ${token}`;
   }
 
-  return fetch(`${baseUrlAuth}${url}`, options).then((response) => {
+  return fetch(`${baseUrl}${url}`, options).then((response) => {
     if (response.ok) {
       return response.json();
     }

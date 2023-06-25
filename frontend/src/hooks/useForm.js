@@ -64,7 +64,7 @@ const useForm = (initialState) => {
         ...prevErrors,
         [input.name]: input.validationMessage,
       };
-      const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+      const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*).{8,}$/;
 
       if (input.name === 'confirmPassword') {
         const currentPassword = input.name === 'password' ? input.value : form.password;
@@ -72,7 +72,7 @@ const useForm = (initialState) => {
 
         if (currentPassword !== currentConfirmPassword || !PASSWORD_REGEX.test(currentPassword)) {
           newErrors.password = input.validationMessage;
-          newErrors.confirmPassword = 'Пароли не совпадают или слишком простые. Пожалуйста используйте заглавные, строчные буквы и цифры при создании пароля.';
+          newErrors.confirmPassword = 'Пароли не совпадают или слишком простые. Пожалуйста используйте заглавные и строчные буквы при создании пароля.';
         } else {
           newErrors.password = '';
           newErrors.confirmPassword = '';
