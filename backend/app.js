@@ -15,13 +15,13 @@ const NotFoundError = require('./errors/NotFoundError');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { dbUrl = 'mongodb://127.0.0.1:27017/mestodb' } = process.env.MONGODB_URL;
+const { MONGODB_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
 const app = express();
 app.use(helmet());
 const { PORT = 3000 } = process.env;
 
-mongoose.connect(dbUrl, {
+mongoose.connect(MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
