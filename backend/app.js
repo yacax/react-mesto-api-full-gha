@@ -15,7 +15,7 @@ const NotFoundError = require('./errors/NotFoundError');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const dbUrl = process.env.MONGODB_URL;
+const { dbUrl = 'mongodb://127.0.0.1:27017/mestodb' } = process.env.MONGODB_URL;
 
 const app = express();
 app.use(helmet());
