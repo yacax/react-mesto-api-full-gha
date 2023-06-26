@@ -60,9 +60,8 @@ This project has been built with a stack of modern technologies that provides hi
 
 ## Project Links
 
-- IP-address <http://51.250.70.104>
+IP-address http://51.250.70.104
 
-- Frontend <https://yacax.nomoreparties.sbs>
+Frontend https://yacax.nomoreparties.sbs
 
-- Backend <https://yan.nomoreparties.sbs>
-
+Backend https://yan.nomoreparties.sbs
