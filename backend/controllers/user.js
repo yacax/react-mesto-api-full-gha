@@ -1,4 +1,3 @@
-const { NODE_ENV, JWT_SECRET = 'JWT_SECRET' } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -8,6 +7,8 @@ const InternalServerError = require('../errors/InternalServerError');
 const NotFoundError = require('../errors/NotFoundError');
 const AuthenticationError = require('../errors/AuthenticationError');
 const UserAlreadyExist = require('../errors/UserAlreadyExists');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -69,7 +70,7 @@ module.exports.login = (req, res, next) => {
 
           const token = jwt.sign(
             { _id: user._id },
-            NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+            JWT_SECRET,
             { expiresIn: '7d' },
           );
 
