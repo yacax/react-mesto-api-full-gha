@@ -8,7 +8,7 @@ const NotFoundError = require('../errors/NotFoundError');
 const AuthenticationError = require('../errors/AuthenticationError');
 const UserAlreadyExist = require('../errors/UserAlreadyExists');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
+const JWT_SECRET = 'dev-secret';
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
