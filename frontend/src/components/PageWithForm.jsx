@@ -1,12 +1,13 @@
-/* eslint-disable */
-const PageWithForm = ({
+import React from 'react';
+import PropTypes from 'prop-types';
+
+function PageWithForm({
   pageName,
   submitName,
   onSubmit,
   children,
-  isFormValid
-}) => {
-
+  isFormValid,
+}) {
   return (
     <div className="auth-page">
       <h2 className="auth-page__title">{pageName}</h2>
@@ -24,8 +25,18 @@ const PageWithForm = ({
         />
       </form>
     </div>
-  )
+  );
 }
 
+PageWithForm.propTypes = {
+  pageName: PropTypes.string.isRequired,
+  submitName: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  isFormValid: PropTypes.bool.isRequired,
+};
 
 export default PageWithForm;

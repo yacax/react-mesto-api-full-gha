@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { baseUrlQuote } from './constants';
 
 const makeRequestToQuote = (method) => {
@@ -18,4 +17,6 @@ const makeRequestToQuote = (method) => {
   });
 };
 
-export const randomQuote = () => makeRequestToQuote('GET');
+const randomQuote = () => makeRequestToQuote('GET');
+
+export default randomQuote;

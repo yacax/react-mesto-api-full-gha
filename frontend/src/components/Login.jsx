@@ -1,23 +1,25 @@
-/* eslint-disable */
-import PageWithForm from "./PageWithForm";
-import Header from "./Header";
-import useForm from "../hooks/useForm";
+import React from 'react';
+import PropTypes from 'prop-types';
+import PageWithForm from './PageWithForm';
+import Header from './Header';
+import useForm from '../hooks/useForm';
 
-const SignIn = ({ loginUser }) => {
-
-  const { form, errors, isFormValid, handleChange } = useForm({
-    email: "",
-    password: "",
-  })
+function SignIn({ loginUser }) {
+  const {
+    form, errors, isFormValid, handleChange,
+  } = useForm({
+    email: '',
+    password: '',
+  });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     loginUser(form);
-  }
+  };
 
   return (
     <>
-      <Header linkTo='/sign-up' linkName='Регистрация' />
+      <Header linkTo="/sign-up" linkName="Регистрация" />
 
       <PageWithForm
         pageName="Вход"
@@ -37,7 +39,11 @@ const SignIn = ({ loginUser }) => {
           value={form.username}
           onChange={handleChange}
         />
-        <span className="form__error-text" > {errors.email} </span>
+        <span className="form__error-text">
+          {' '}
+          {errors.email}
+          {' '}
+        </span>
 
         <input
           type="password"
@@ -51,11 +57,19 @@ const SignIn = ({ loginUser }) => {
           value={form.password}
           onChange={handleChange}
         />
-        <span className="form__error-text"> {errors.password} </span>
+        <span className="form__error-text">
+          {' '}
+          {errors.password}
+          {' '}
+        </span>
 
       </PageWithForm>
     </>
-  )
+  );
 }
+
+SignIn.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+};
 
 export default SignIn;

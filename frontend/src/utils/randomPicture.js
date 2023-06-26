@@ -1,15 +1,14 @@
-/* eslint-disable */
 import {
   pictureToken,
-  baseUrlPicture
-} from "./constants.js"
+  baseUrlPicture,
+} from './constants';
 
-const makeRequestToPicture = (url, method, body, pictureToken) => {
+const makeRequestToPicture = (url, method, body) => {
   const options = {
     method,
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   };
 
@@ -29,7 +28,6 @@ const makeRequestToPicture = (url, method, body, pictureToken) => {
   });
 };
 
+const getPicture = () => makeRequestToPicture('/photos/random', 'GET', null, pictureToken);
 
-export const getPicture = () => {
-  return makeRequestToPicture("/photos/random", "GET", null, pictureToken);
-};
+export default getPicture;

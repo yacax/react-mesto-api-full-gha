@@ -1,7 +1,6 @@
-/* eslint-disable */
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 function getClassName(mobile, email) {
   if (mobile && email) {
@@ -33,7 +32,7 @@ function HeaderInformer({
       <Link
         to={linkTo}
         className={`header__link ${mobile && email ? 'header__link_type_mobile' : ''}`}
-        onClick={logOut || null}
+        onClick={logOut}
       >
         {linkName}
       </Link>
@@ -42,16 +41,17 @@ function HeaderInformer({
   );
 }
 
-// HeaderInformer.propTypes = {
-//   email: PropTypes.string,
-//   linkName: PropTypes.string.isRequired,
-//   linkTo: PropTypes.string.isRequired,
-//   logOut: PropTypes.func,
-//   mobile: PropTypes.bool.isRequired,
-// };
+HeaderInformer.propTypes = {
+  email: PropTypes.string,
+  linkName: PropTypes.string.isRequired,
+  linkTo: PropTypes.string.isRequired,
+  logOut: PropTypes.func,
+  mobile: PropTypes.bool.isRequired,
+};
 
-// HeaderInformer.defaultProps = {
-//   email: '',
-// };
+HeaderInformer.defaultProps = {
+  email: '',
+  logOut: () => { },
+};
 
 export default HeaderInformer;

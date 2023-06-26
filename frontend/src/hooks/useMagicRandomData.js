@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import * as randomPicture from '../utils/randomPicture';
-import { randomQuote } from '../utils/randomQuote';
+import getPicture from '../utils/randomPicture';
+import randomQuote from '../utils/randomQuote';
 
 const useMagicRandomData = () => {
   const [magicRandomData, setMagicRandomData] = useState('');
@@ -31,8 +31,7 @@ const useMagicRandomData = () => {
 
   const generateSomething = (activeInput) => {
     if (activeInput === 'link') {
-      randomPicture
-        .getPicture()
+      getPicture()
         .then((image) => {
           setMagicRandomData(image.urls.regular);
         })

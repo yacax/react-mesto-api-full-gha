@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { api } from '../utils/Api';
+import api from '../utils/Api';
 import * as userAuth from '../utils/userAuth';
 
 import Main from './Main';
@@ -35,7 +35,11 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState('');
 
-  const [infoTool, setInfoTool] = useState({ isOpen: false, text: '', result: '' });
+  const [infoTool, setInfoTool] = useState({
+    isOpen: false,
+    text: '',
+    result: false,
+  });
 
   const [userData, setUserData] = useState({
     _id: '',
@@ -216,14 +220,23 @@ function App() {
       });
   }, [isLiked]);
 
-  const handleEditProfileClick = () => {
-    setIsEditProfilePopupOpen(true);
+  const eventHandleClickOrEnter = (evt) => (evt.type === 'click'
+    || (evt.type === 'keydown' && evt.key === 'Enter'));
+
+  const handleEditProfileClick = (evt) => {
+    if (eventHandleClickOrEnter(evt)) {
+      setIsEditProfilePopupOpen(true);
+    }
   };
-  const handleAddPlaceClick = () => {
-    setIsAddPlacePopupOpen(true);
+  const handleAddPlaceClick = (evt) => {
+    if (eventHandleClickOrEnter(evt)) {
+      setIsAddPlacePopupOpen(true);
+    }
   };
-  const handleEditAvatarClick = () => {
-    setIsEditAvatarPopupOpen(true);
+  const handleEditAvatarClick = (evt) => {
+    if (eventHandleClickOrEnter(evt)) {
+      setIsEditAvatarPopupOpen(true);
+    }
   };
 
   const handleCardClick = (card) => {

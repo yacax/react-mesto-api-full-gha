@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import HeaderInformer from './HeaderInformer';
@@ -64,15 +63,16 @@ function Header({
   );
 }
 
-// Header.propTypes = {
-//   linkTo: PropTypes.string.isRequired,
-//   linkName: PropTypes.string.isRequired,
-//   email: PropTypes.string,
-//   logOut: PropTypes.func.isRequired,
-// };
+Header.propTypes = {
+  linkTo: PropTypes.string.isRequired,
+  linkName: PropTypes.string.isRequired,
+  email: PropTypes.string,
+  logOut: PropTypes.func,
+};
 
-// Header.defaultProps = {
-//   email: '',
-// };
+Header.defaultProps = {
+  email: '',
+  logOut: () => { },
+};
 
 export default Header;

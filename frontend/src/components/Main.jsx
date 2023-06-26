@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -39,10 +37,12 @@ function Main({
       />
       <main>
         <section className="profile">
-          { /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
           <div
             className="profile__avatar-container"
             onClick={onEditAvatar}
+            onKeyDown={onEditAvatar}
+            role="button"
+            tabIndex={0}
           >
             <div className="profile__avatar-edit" />
             <img
@@ -56,18 +56,23 @@ function Main({
             <h1 className="profile__title">
               {userData.name}
             </h1>
-            { /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
             <button
+              aria-label="Edit user name and about button"
               className="profile__edit-button"
               type="button"
               onClick={onEditProfile}
+              onKeyDown={onEditProfile}
+              tabIndex={0}
             />
             <p className="profile__subtitle">{userData.about}</p>
           </div>
           <button
+            aria-label="Add place button"
             className="profile__add-button"
             type="button"
             onClick={onAddPlace}
+            onKeyDown={onAddPlace}
+            tabIndex={0}
           />
         </section>
 

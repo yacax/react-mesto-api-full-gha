@@ -1,7 +1,13 @@
-/* eslint-disable */
 import {
   baseUrl,
-} from './constants.js';
+} from './constants';
+
+const handleResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(new Error(`Error: ${res.status}`));
+};
 
 class Api {
   constructor(options) {
@@ -14,13 +20,6 @@ class Api {
     this.token = `Bearer ${token}`;
   }
 
-  _handleResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}`);
-  }
-
   _request(url, options) {
     const headersWithToken = {
       ...options.headers,
@@ -30,7 +29,7 @@ class Api {
       ...options,
       headers: headersWithToken,
     };
-    return fetch(url, optionsWithToken).then(this._handleResponse);
+    return fetch(url, optionsWithToken).then(handleResponse);
   }
 
   getInitialCards() {
@@ -91,4 +90,4 @@ const api = new Api({
   },
 });
 
-export { api };
+export default api;
