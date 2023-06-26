@@ -54,6 +54,8 @@ module.exports.validateUserId = celebrate({
     .keys({
       userId: Joi
         .string()
+        .length(24)
+        .hex()
         .custom((value, helpers) => {
           if (!ObjectId.isValid(value)) {
             return helpers.error('Invalid user id');

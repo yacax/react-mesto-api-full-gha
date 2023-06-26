@@ -19,8 +19,8 @@ const {
 
 router.get('/', validateBearerToken, getUsers);
 router.get('/me', validateBearerToken, getCurrentUser);
-router.get('/:userId', validateUserId, getUserById);
-router.patch('/me', validateUserFields, updateProfile);
-router.patch('/me/avatar', validateUserFields, updateAvatar);
+router.get('/:userId', validateBearerToken, validateUserId, getUserById);
+router.patch('/me', validateBearerToken, validateUserFields, updateProfile);
+router.patch('/me/avatar', validateBearerToken, validateUserFields, updateAvatar);
 
 module.exports = router;
