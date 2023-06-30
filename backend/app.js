@@ -6,14 +6,14 @@ const { errors } = require('celebrate');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { corsOptions } = require('./utils/corsOptions');
-const { logger } = require('./utils/logger');
+// const { logger } = require('./utils/logger');
 const { login, createUser } = require('./controllers/user');
 const auth = require('./middlewares/auth');
 const { validateAuthentication, validateUserBody } = require('./utils/validators');
 const NoRightsToTheOperation = require('./errors/NoRightsToTheOperation');
 const NotFoundError = require('./errors/NotFoundError');
 const errorHandler = require('./middlewares/errorHandler');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { requestLogger, errorLogger, infoLogger } = require('./middlewares/logger');
 
 const { PORT = 3000, MONGODB_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
@@ -61,5 +61,5 @@ app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  logger.info(`Server running on http://localhost:${PORT}`);
+  infoLogger.info(`Server running on http://localhost:${PORT}`);
 });

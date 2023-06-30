@@ -15,7 +15,25 @@ const errorLogger = expressWinston.errorLogger({
   format: winston.format.json(),
 });
 
+const infoLogger = winston.createLogger({
+  level: 'info',
+
+  format: winston.format.json(),
+
+  defaultMeta: { service: 'server-mesto' },
+
+  transports: [
+
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+
+    new winston.transports.File({ filename: 'combined.log' }),
+
+  ],
+
+});
+
 module.exports = {
   requestLogger,
   errorLogger,
+  infoLogger,
 };

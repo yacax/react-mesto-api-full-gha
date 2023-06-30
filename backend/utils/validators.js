@@ -55,6 +55,7 @@ module.exports.validateUserId = celebrate({
       userId: Joi
         .string()
         .length(24)
+        .required()
         .hex()
         .custom((value, helpers) => {
           if (!ObjectId.isValid(value)) {
@@ -104,6 +105,7 @@ module.exports.validateCardId = celebrate({
     .object()
     .keys({
       cardId: Joi
+        .required()
         .string()
         .custom((value, helpers) => {
           if (!ObjectId.isValid(value)) {
