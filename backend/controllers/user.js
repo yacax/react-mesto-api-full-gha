@@ -9,7 +9,7 @@ const UserAlreadyExist = require('../errors/UserAlreadyExists');
 const findUserById = (userId, next) => user.findById(userId)
   .then((userDate) => {
     if (!userDate) {
-      throw new NotFoundError();
+      return next(NotFoundError());
     }
     return userDate;
   })
