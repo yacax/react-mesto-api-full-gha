@@ -66,22 +66,17 @@ module.exports.validateUserId = celebrate({
     }),
 });
 
-module.exports.validateUserFields = celebrate({
-  body: Joi
-    .object()
-    .keys({
-      name: Joi
-        .string()
-        .min(2)
-        .max(30),
-      about: Joi
-        .string()
-        .min(2)
-        .max(30),
-      avatar: Joi
-        .string()
-        .pattern(regexPatterns.link),
-    }).or('name', 'about', 'avatar'),
+module.exports.validateUpdateUser = celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30).required(),
+    about: Joi.string().min(2).max(30).required(),
+  }),
+});
+
+module.exports.validateUpdateAvatar = celebrate({
+  body: Joi.object().keys({
+    avatar: Joi.string().pattern(regexPatterns.link).optional(),
+  }),
 });
 
 module.exports.validateCardFields = celebrate({

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-// const BadRequestError = require('../errors/BadRequestError');
 const AuthenticationError = require('../errors/AuthenticationError');
 const { regexPatterns } = require('../utils/regexPatterns');
 
@@ -45,7 +44,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
-  return this.findOne({ email })
+  return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
         throw new AuthenticationError();
@@ -59,12 +58,5 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
         });
     });
 };
-
-// userSchema.methods.validateSync = function validateSync(...args) {
-//   const validationResult = mongoose.Schema.prototype.validateSync.apply(this, args);
-//   if (validationResult && validationResult.errors) {
-//     throw new BadRequestError();
-//   }
-// };
 
 module.exports = mongoose.model('user', userSchema);
