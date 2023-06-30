@@ -31,12 +31,12 @@ module.exports.deleteCard = (req, res, next) => {
   Card.findById(cardId)
     .then((card) => {
       if (!card) {
-        return next(new NotFoundError());
+        throw new NotFoundError();
       }
       if (card.owner.toString() !== userId) {
-        return next(new NoRightsToTheOperation());
+        throw new NoRightsToTheOperation();
       }
-      return Card.deleteOne({ _id: cardId });
+      return Card.deleteOne();
     })
     .then((card) => {
       res.send({ data: card });
@@ -55,11 +55,17 @@ module.exports.likeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        return next(new NotFoundError());
+        throw new NotFoundError();
       }
-      return res.send({ data: card });
+      res.send({ data: card });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err instanceof NotFoundError) {
+        next(err);
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.unlikeCard = (req, res, next) => {
@@ -73,9 +79,15 @@ module.exports.unlikeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        next(new NotFoundError());
+        throw new NotFoundError();
       }
-      return res.send({ data: card });
+      res.send({ data: card });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err instanceof NotFoundError) {
+        next(err);
+      } else {
+        next(err);
+      }
+    });
 };
