@@ -105,8 +105,8 @@ module.exports.validateCardId = celebrate({
     .object()
     .keys({
       cardId: Joi
-        .required()
         .string()
+        .required()
         .custom((value, helpers) => {
           if (!ObjectId.isValid(value)) {
             return helpers.error('Invalid card id');

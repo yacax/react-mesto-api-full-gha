@@ -29,13 +29,13 @@ module.exports.createUser = (req, res, next) => {
     password: bcrypt.hashSync(password, 10),
   };
 
-  // if (name && name !== '') userObject.name = name;
-  // if (about && about !== '') userObject.about = about;
-  // if (avatar && avatar !== '') userObject.avatar = avatar;
+  if (name && name !== '') userObject.name = name;
+  if (about && about !== '') userObject.about = about;
+  if (avatar && avatar !== '') userObject.avatar = avatar;
 
-  userObject.name = name;
-  userObject.about = about;
-  userObject.avatar = avatar;
+  // userObject.name = name;
+  // userObject.about = about;
+  // userObject.avatar = avatar;
 
   user.create(userObject)
     .then((userDate) => res.status(201).send({
@@ -57,29 +57,7 @@ module.exports.createUser = (req, res, next) => {
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
-  // return user.findOne({ email }).select('+password')
-  //   .then((userDate) => {
-  //     if (!userDate) {
-  //       throw new AuthenticationError();
-  //     }
-
-  //     return bcrypt.compare(password, userDate.password)
-  //       .then((isMatch) => {
-  //         if (!isMatch) {
-  //           throw new AuthenticationError();
-  //         }
-
-  //         const token = jwt.sign(
-  //           { _id: userDate._id },
-  //           NODE_ENV === 'production' ? JWT_SECRET : 'JWT_SECRET',
-  //           { expiresIn: '7d' },
-  //         );
-
-  //         res.send({ token });
-  //       });
-  //   })
-
-  return user.findUserByCredentials(email, password)
+  return user.findOne({ email }).select('+password')
     .then((userDate) => {
       if (!userDate) {
         throw new AuthenticationError();
@@ -100,11 +78,36 @@ module.exports.login = (req, res, next) => {
           res.send({ token });
         });
     })
-    .catch(next);
+    .catch(() => {
+      next(new AuthenticationError());
+    });
 
-  // .catch(() => {
-  //   next(new AuthenticationError());
-  // });
+  // ==========================
+
+  // return user.findUserByCredentials(email, password)
+  //   .then((userDate) => {
+  //     if (!userDate) {
+  //       throw new AuthenticationError();
+  //     }
+
+  //     return bcrypt.compare(password, userDate.password)
+  //       .then((isMatch) => {
+  //         if (!isMatch) {
+  //           throw new AuthenticationError();
+  //         }
+
+  //         const token = jwt.sign(
+  //           { _id: userDate._id },
+  //           NODE_ENV === 'production' ? JWT_SECRET : 'JWT_SECRET',
+  //           { expiresIn: '7d' },
+  //         );
+
+  //         res.send({ token });
+  //       });
+  //   })
+  //   .catch(next);
+
+  // ======================
 };
 
 module.exports.getUserById = (req, res, next) => {
