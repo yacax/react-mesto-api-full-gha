@@ -1,4 +1,4 @@
-const { ERROR_MESSAGES } = require('./constants');
+const { ERROR_MESSAGES } = require('../config');
 
 module.exports = class NotFoundError extends Error {
   constructor(message = ERROR_MESSAGES.NOT_FOUND_ERROR) {

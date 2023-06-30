@@ -1,13 +1,9 @@
-// const { NODE_ENV, JWT_SECRET = 'JWT_SECRET' } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { JWT_CONST } = require('../config');
 const user = require('../models/user');
-// const { checkIdValidity } = require('../utils/checkIdValidity');
 const BadRequestError = require('../errors/BadRequestError');
-// const InternalServerError = require('../errors/InternalServerError');
 const NotFoundError = require('../errors/NotFoundError');
-// const AuthenticationError = require('../errors/AuthenticationError');
 const UserAlreadyExist = require('../errors/UserAlreadyExists');
 
 const findUserById = (userId, next) => user.findById(userId)
@@ -43,10 +39,6 @@ module.exports.createUser = (req, res, next) => {
   if (about && about !== '') userObject.about = about;
   if (avatar && avatar !== '') userObject.avatar = avatar;
 
-  // userObject.name = name;
-  // userObject.about = about;
-  // userObject.avatar = avatar;
-
   user.create(userObject)
     .then((userDate) => res.status(201).send({
       _id: userDate._id,
@@ -71,7 +63,6 @@ module.exports.login = (req, res, next) => {
     .then((userDate) => {
       const token = jwt.sign(
         { _id: userDate._id },
-        // NODE_ENV === 'production' ? JWT_SECRET : 'JWT_SECRET',
         JWT_CONST,
         { expiresIn: '7d' },
       );
@@ -88,38 +79,11 @@ module.exports.getUserById = (req, res, next) => {
     .catch(next);
 };
 
-// if (!checkIdValidity(userId, next)) {
-//   return;
-// }
-// user.findById(userId)
-//   .then((userDate) => {
-//     if (!userDate) {
-//       next(new NotFoundError());
-//       return;
-//     }
-//     res.send({ data: userDate });
-//   })
-//   .catch(next);
-// .catch(() => next(new InternalServerError()));
-// };
-
 module.exports.getCurrentUser = (req, res, next) => {
   const { _id: userId } = req.user;
   findUserById(userId, next)
     .then((userDate) => res.send({ data: userDate }))
     .catch(next);
-  // if (!checkIdValidity(userId, next)) {
-  //   return;
-  // }
-  // user.findById(userId)
-  //   .then((userDate) => {
-  //     if (!userDate) {
-  //       next(new NotFoundError());
-  //       return;
-  //     }
-  //     res.send({ data: userDate });
-  //   })
-  //   .catch(next);
 };
 
 module.exports.updateProfile = (req, res, next) => {

@@ -1,4 +1,4 @@
-const { ERROR_MESSAGES } = require('./constants');
+const { ERROR_MESSAGES } = require('../config');
 
 module.exports = class UserAlreadyExist extends Error {
   constructor(message = ERROR_MESSAGES.USER_ALREADY_EXISTS) {

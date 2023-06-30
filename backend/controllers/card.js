@@ -1,8 +1,6 @@
 const Card = require('../models/card');
-// const { checkIdValidity } = require('../utils/checkIdValidity');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
-// const AuthenticationError = require('../errors/AuthenticationError');
 const NoRightsToTheOperation = require('../errors/NoRightsToTheOperation');
 
 module.exports.getCards = (req, res, next) => {
@@ -30,10 +28,6 @@ module.exports.deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const { _id: userId } = req.user;
 
-  // if (!checkIdValidity(cardId, next)) {
-  //   return;
-  // }
-
   Card.findById(cardId)
     .then((card) => {
       if (!card) {
@@ -42,7 +36,6 @@ module.exports.deleteCard = (req, res, next) => {
       if (card.owner.toString() !== userId) {
         throw new NoRightsToTheOperation();
       }
-      // return Card.findByIdAndRemove(cardId);
       return Card.deleteOne();
     })
     .then((card) => {
@@ -50,26 +43,10 @@ module.exports.deleteCard = (req, res, next) => {
     })
     .catch((err) => next(err));
 };
-// .catch((err) => {
-//   if (err instanceof NotFoundError) {
-//     next(err);
-//   } else if (err instanceof NoRightsToTheOperation) {
-//     next(err);
-//   } else if (err instanceof AuthenticationError) {
-//     next(err);
-//   } else {
-//     next(err);
-//   }
-// });
-// };
 
 module.exports.likeCard = (req, res, next) => {
   const { cardId } = req.params;
   const { _id: userId } = req.user;
-
-  // if (!checkIdValidity(userId, next) || !checkIdValidity(cardId, next)) {
-  //   return;
-  // }
 
   Card.findByIdAndUpdate(
     cardId,
@@ -94,10 +71,6 @@ module.exports.likeCard = (req, res, next) => {
 module.exports.unlikeCard = (req, res, next) => {
   const { cardId } = req.params;
   const { _id: userId } = req.user;
-
-  // if (!checkIdValidity(userId, next) || !checkIdValidity(cardId, next)) {
-  //   return;
-  // }
 
   Card.findByIdAndUpdate(
     cardId,
