@@ -67,16 +67,32 @@ module.exports.validateUserId = celebrate({
 });
 
 module.exports.validateUpdateUser = celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30).required(),
-    about: Joi.string().min(2).max(30).required(),
-  }),
+  body: Joi
+    .object()
+    .keys({
+      name: Joi
+        .string()
+        .min(2)
+        .max(30)
+        .required(),
+      about: Joi
+        .string()
+        .min(2)
+        .max(30)
+        .required(),
+    }),
 });
 
 module.exports.validateUpdateAvatar = celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().pattern(regexPatterns.link).optional(),
-  }),
+  body: Joi
+    .object()
+    .keys({
+      avatar: Joi
+        .string()
+        .pattern(regexPatterns.link)
+        .optional()
+        .required(),
+    }),
 });
 
 module.exports.validateCardFields = celebrate({

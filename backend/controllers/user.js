@@ -48,12 +48,10 @@ module.exports.createUser = (req, res, next) => {
       avatar: userDate.avatar,
     }))
     .catch((err) => {
-      if (err instanceof BadRequestError) {
-        next(err);
-      } else if (err.code === 11000) {
+      if (err.code === 11000) {
         next(new UserAlreadyExist());
       }
-    });
+    }).catch(next);
 };
 
 module.exports.login = (req, res, next) => {
@@ -66,7 +64,6 @@ module.exports.login = (req, res, next) => {
         JWT_CONST,
         { expiresIn: '7d' },
       );
-
       res.send({ token });
     })
     .catch(next);
@@ -100,7 +97,8 @@ module.exports.updateProfile = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') next(new BadRequestError());
-    });
+    })
+    .catch(next);
 };
 
 module.exports.updateAvatar = (req, res, next) => {
@@ -123,5 +121,6 @@ module.exports.updateAvatar = (req, res, next) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError());
       }
-    });
+    })
+    .catch(next);
 };

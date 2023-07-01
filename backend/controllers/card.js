@@ -21,7 +21,8 @@ module.exports.createCard = (req, res, next) => {
       } else {
         next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 module.exports.deleteCard = (req, res, next) => {
@@ -41,7 +42,7 @@ module.exports.deleteCard = (req, res, next) => {
     .then((card) => {
       res.send({ data: card });
     })
-    .catch((err) => next(err));
+    .catch(next);
 };
 
 module.exports.likeCard = (req, res, next) => {
@@ -59,13 +60,7 @@ module.exports.likeCard = (req, res, next) => {
       }
       res.send({ data: card });
     })
-    .catch((err) => {
-      if (err instanceof NotFoundError) {
-        next(err);
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
 
 module.exports.unlikeCard = (req, res, next) => {
@@ -83,11 +78,5 @@ module.exports.unlikeCard = (req, res, next) => {
       }
       res.send({ data: card });
     })
-    .catch((err) => {
-      if (err instanceof NotFoundError) {
-        next(err);
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
