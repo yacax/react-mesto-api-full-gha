@@ -51,7 +51,8 @@ module.exports.createUser = (req, res, next) => {
       if (err.code === 11000) {
         next(new UserAlreadyExist());
       }
-    }).catch(next);
+      next(err);
+    });
 };
 
 module.exports.login = (req, res, next) => {
@@ -97,8 +98,8 @@ module.exports.updateProfile = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') next(new BadRequestError());
-    })
-    .catch(next);
+      next(err);
+    });
 };
 
 module.exports.updateAvatar = (req, res, next) => {
@@ -121,6 +122,6 @@ module.exports.updateAvatar = (req, res, next) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError());
       }
-    })
-    .catch(next);
+      next(err);
+    });
 };

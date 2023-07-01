@@ -90,7 +90,6 @@ module.exports.validateUpdateAvatar = celebrate({
       avatar: Joi
         .string()
         .pattern(regexPatterns.link)
-        .optional()
         .required(),
     }),
 });

@@ -18,11 +18,8 @@ module.exports.createCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError());
-      } else {
-        next(err);
-      }
-    })
-    .catch(next);
+      } next(err);
+    });
 };
 
 module.exports.deleteCard = (req, res, next) => {
