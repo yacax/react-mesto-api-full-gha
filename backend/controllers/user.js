@@ -50,6 +50,7 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       if (err.code === 11000) {
         next(new UserAlreadyExist());
+        return;
       }
       next(err);
     });
@@ -121,6 +122,7 @@ module.exports.updateAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError());
+        return;
       }
       next(err);
     });
